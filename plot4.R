@@ -5,7 +5,7 @@ plot4 <- function(dir) {
     ## Author:  Aric Rosenbaum
     
     ## Clean up
-    rm(list=ls())
+    rm(list=(ls()[ls()!="dir"]))
     
     ## Load data
     data <- read.table(paste(dir, "\\household_power_consumption.txt", sep = ""), sep = ";", na.strings = "?", header = TRUE)
@@ -16,6 +16,9 @@ plot4 <- function(dir) {
     ## Create day of week column
     data.subset$DateTime = strptime( paste (data.subset$Date, data.subset$Time), "%d/%m/%Y %H:%M:%S")
     
+    ## Output to png
+    png("plot4.png", height = 480, width = 480)
+
     ## Set 2x2 charting matrix
     par(mfrow = c(2, 2))
     
@@ -36,8 +39,7 @@ plot4 <- function(dir) {
     ## Voltage (bottom right)
     plot(data.subset$DateTime, data.subset$Global_reactive_power, xlab = "datetime", ylab = "Global_reactive_power", type = "l")
     
-    ## Output PNG
-    dev.copy(png, file = "plot4.png", height = 480, width = 480)
+    ## Close PNG
     dev.off()
     
 }
